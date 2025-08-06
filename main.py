@@ -742,7 +742,7 @@ def run_flask():
 def keep_server_alive():
     while True:
         try:
-            response = requests.get('https://forex-bot-5o8q.onrender.com')
+            response = requests.get('https://forex-bot-1-c7bj.onrender.com')
             if response.status_code == 200:
                 #logger.info(f"Server alive check successful - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
                 pass
@@ -766,7 +766,7 @@ def main():
     telegram_thread.start()
     #logger.info("Server alive checker started")
 
-    test_telegram_bot()
+    #test_telegram_bot()
     
     # Send economic events at startup
     send_today_economic_events()
@@ -811,6 +811,6 @@ def main():
 
 if __name__ == "__main__":
     main()
-    #test_telegram_bot()
+    test_telegram_bot()
     #poll_updates()
 
