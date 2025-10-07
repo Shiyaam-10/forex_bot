@@ -22,7 +22,7 @@ OANDA_ACCOUNT_ID   = os.getenv('OANDA_ACCOUNT_ID')   # unused here, kept for fut
 OANDA_URL          = os.getenv('OANDA_URL')          # e.g. https://api-fxpractice.oanda.com/v3
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN_15')
 TELEGRAM_CHAT_ID   = os.getenv('TELEGRAM_CHAT_ID_15')
-API_URL =   os.getenv('API_URL')
+API_URL =   os.getenv('API_URL_15')
 
 # News refresh/alert config
 REFRESH_MINUTES = int(os.getenv("REFRESH_MINUTES", "30"))  # refetch feed every N minutes
@@ -103,7 +103,7 @@ def get_chat_id():
 
 def test_telegram_bot():
     chat_id = get_chat_id()
-    # print(chat_id,'chat_id')
+    print(chat_id,'chat_id')
     if not chat_id:
         #logger.error("Could not get chat ID. Please make sure you've sent a message to your bot.")
         return
@@ -153,14 +153,15 @@ def keep_server_alive():
 # ──────────────────────────────────────────────────────────────────────────────
 def send_telegram_alert(message: str):
     try:
-        # allow alerts only between 05:30 and 13:30 IST, regardless of server timezone
-        ist_tz = IST or timezone(timedelta(hours=5, minutes=30))
-        now_ist = datetime.now(ist_tz)
-        start_window = now_ist.replace(hour=5, minute=30, second=0, microsecond=0)
-        end_window = now_ist.replace(hour=13, minute=30, second=0, microsecond=0)
-        if not (start_window <= now_ist <= end_window):
-            print(f"[{now_ist:%Y-%m-%d %H:%M:%S %Z}] Alert suppressed (outside 05:30-13:30 IST window)")
-            return
+        # NOTE: Time-window restriction temporarily disabled; will reintroduce later
+        # # allow alerts only between 05:30 and 13:30 IST, regardless of server timezone
+        # ist_tz = IST or timezone(timedelta(hours=5, minutes=30))
+        # now_ist = datetime.now(ist_tz)
+        # start_window = now_ist.replace(hour=5, minute=30, second=0, microsecond=0)
+        # end_window = now_ist.replace(hour=13, minute=30, second=0, microsecond=0)
+        # if not (start_window <= now_ist <= end_window):
+        #     print(f"[{now_ist:%Y-%m-%d %H:%M:%S %Z}] Alert suppressed (outside 05:30-13:30 IST window)")
+        #     return
         if not (TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID):
             print("Telegram env not set; printing message:\n", message)
             return
@@ -652,5 +653,5 @@ def main():
         print("Stopped by user.")
 
 if __name__ == "__main__":
-    #test_telegram_bot()
+    test_telegram_bot()
     main()
