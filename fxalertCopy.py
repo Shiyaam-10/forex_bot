@@ -601,8 +601,6 @@ def pattern_monitor(instrument, timeframes):
             clear_expired_alerts()
             for tf in timeframes:
                 check_engulfing(instrument, tf)
-                check_cpr_engulfing(instrument, tf)
-                check_body_breakout(instrument, tf)
                 time.sleep(1)  # light rate limit
         except Exception as e:
             print(f"pattern_monitor error {instrument}: {e}")
